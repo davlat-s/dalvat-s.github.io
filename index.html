@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftUI Tutorial Recreation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Banner -->
+    <header class="banner">
+        <div class="banner-content">
+            <h1>Introducing CreditCardLibrary: Your Credit Card Companion</h1>
+            <p>This walkthrough takes you through CreditCardLibrary, a MacOS app built with SwiftUI to manage, visualize, and organize your credit cards—all in one sleek interface.</p>
+            <div class="banner-meta">
+                <span>5 mins</span>
+                <span>Xcode 15 or later</span>
+            </div>
+        </div>
+        <img src="banner.png" alt="Banner background" class="banner-image">
+    </header>
+
+    <div class="main-container">
+        <!-- Segment 1 -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-header-text">
+                    <h1>Section 1: Explore Your Card Collection</h1>
+                    <p>Launch CreditCardLibrary and dive into your card collection, beautifully displayed with real-world card art.</p>
+                </div>
+                <img src="Grid View-2.png" alt="Section 1 image" class="segment-image">
+            </div>
+            <div class="segment-content">
+                <div class="left-column">
+                    <div class="text-segment" data-id="step1">
+                        <h2>Step 1</h2>
+                        <p>Open the app to see the main window, featuring a sidebar and a grid of your credit cards—like a digital wallet.</p>
+                        <div class="visual inline-visual" data-id="step1">
+                            <pre><code>struct WalletContentView: View {
+    @Binding var selectedCategory: SideBarCategories
+    @Binding var columnVisibility: NavigationSplitViewVisibility
+    
+    var body: some View {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            SidebarView(selectedCategory: $selectedCategory)
+        } detail: {
+            CardGridView(...)
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 1 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step2">
+                        <h2>Step 2</h2>
+                        <p>Scroll through the grid to admire card designs, like the Chase Sapphire Reserve or AmEx Platinum, pulled from a library of over 200 assets.</p>
+                        <div class="visual inline-visual" data-id="step2">
+                            <pre><code>struct CardGridCellView: View {
+    let creditCard: CreditCard
+    
+    var body: some View {
+        VStack {
+            Image(creditCard.cardArt?.assetID ?? "default")
+                .resizable()
+                .frame(width: 250, height: (250 / 8.56) * 5.389)
+            Text(creditCard.name)
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 2 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step3">
+                        <h2>Step 3</h2>
+                        <p>Filter your cards using the sidebar—select "Personal" to see just those cards, or "Business" to focus on work-related ones.</p>
+                        <div class="visual inline-visual" data-id="step3">
+                            <pre><code>enum SideBarCategories: Hashable {
+    case business
+    case personal
+    case all
+    
+    func sidebarFilter(_ creditCard: CreditCard) -> Bool {
+        switch self {
+        case .personal:
+            return !creditCard.isBusiness && creditCard.closed == nil
+        case .business:
+            return creditCard.isBusiness && creditCard.closed == nil
+        case .all:
+            return creditCard.closed == nil
+        default:
+            return false
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 3 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step4">
+                        <h2>Step 4</h2>
+                        <p>Use the search bar to quickly find a card by name—like typing "Sapphire" to jump to your Chase Sapphire Reserve.</p>
+                        <div class="visual inline-visual" data-id="step4">
+                            <pre><code>struct CardGridView: View {
+    @Binding var selectedCategory: SideBarCategories
+    @Query(filter: #Predicate { card in
+        if searchString.isEmpty {
+            return true
+        } else {
+            return card.name.localizedStandardContains(searchString)
+        }
+    }) private var cards: [CreditCard]
+}</code></pre>
+                            <img src="step3.png" alt="Step 4 screenshot">
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="visual column-visual" data-id="step1">
+                        <pre><code>struct WalletContentView: View {
+    @Binding var selectedCategory: SideBarCategories
+    @Binding var columnVisibility: NavigationSplitViewVisibility
+    
+    var body: some View {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            SidebarView(selectedCategory: $selectedCategory)
+        } detail: {
+            CardGridView(...)
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 1 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step2">
+                        <pre><code>struct CardGridCellView: View {
+    let creditCard: CreditCard
+    
+    var body: some View {
+        VStack {
+            Image(creditCard.cardArt?.assetID ?? "default")
+                .resizable()
+                .frame(width: 250, height: (250 / 8.56) * 5.389)
+            Text(creditCard.name)
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 2 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step3">
+                        <pre><code>enum SideBarCategories: Hashable {
+    case business
+    case personal
+    case all
+    
+    func sidebarFilter(_ creditCard: CreditCard) -> Bool {
+        switch self {
+        case .personal:
+            return !creditCard.isBusiness && creditCard.closed == nil
+        case .business:
+            return creditCard.isBusiness && creditCard.closed == nil
+        case .all:
+            return creditCard.closed == nil
+        default:
+            return false
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 3 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step4">
+                        <pre><code>struct CardGridView: View {
+    @Binding var selectedCategory: SideBarCategories
+    @Query(filter: #Predicate { card in
+        if searchString.isEmpty {
+            return true
+        } else {
+            return card.name.localizedStandardContains(searchString)
+        }
+    }) private var cards: [CreditCard]
+}</code></pre>
+                        <img src="step3.png" alt="Step 4 screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Horizontal Divider -->
+        <hr class="segment-divider">
+        <!-- Segment 2 -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-header-text">
+                    <h1>Section 2: Dive into Card Details</h1>
+                    <p>Double-click a card to explore its details, from credit limits to history, all in a clean, organized view.</p>
+                </div>
+                <img src="Sidebar and Toolbar.png" alt="Section 2 image" class="segment-image">
+            </div>
+            <div class="segment-content">
+                <div class="left-column">
+                    <div class="text-segment" data-id="step5">
+                        <h2>Step 1</h2>
+                        <p>Double-click a card, like your AmEx Gold, to open its detailed view, showing key info like credit limit and annual fee.</p>
+                        <div class="visual inline-visual" data-id="step5">
+                            <pre><code>struct DetailView: View {
+    @Bindable var creditCard: CreditCard
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                CardView(creditCard: creditCard)
+                GroupBox {
+                    DetailRowView(label: "Card Name", value: creditCard.name)
+                    DetailRowView(label: "Credit Limit", value: String(creditCard.creditLimit ?? 0))
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step4.png" alt="Step 1 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step6">
+                        <h2>Step 2</h2>
+                        <p>Toggle the history button to see a log of changes—like when the card was added or its limit updated.</p>
+                        <div class="visual inline-visual" data-id="step6">
+                            <pre><code>struct ToggleHistoryView: View {
+    @Binding var isShowingHistory: Bool
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button(action: { isShowingHistory.toggle() }) {
+                Text(isShowingHistory ? "Hide History" : "Show History")
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step2.png" alt="Step 2 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step7">
+                        <h2>Step 3</h2>
+                        <p>View any active promotions or bonuses, like a sign-up bonus for spending $6,000 in 3 months.</p>
+                        <div class="visual inline-visual" data-id="step7">
+                            <pre><code>struct DetailView: View {
+    @Bindable var creditCard: CreditCard
+    
+    var body: some View {
+        ScrollView {
+            if !creditCard.bonuses.isEmpty {
+                GroupBox {
+                    ForEach(creditCard.bonuses, id: \.self) { bonus in
+                        DetailRowView(label: "Bonus Details", value: bonus.details)
+                    }
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step4.png" alt="Step 3 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step8">
+                        <h2>Step 4</h2>
+                        <p>Click the back button to return to the grid, keeping navigation seamless and intuitive.</p>
+                        <div class="visual inline-visual" data-id="step8">
+                            <pre><code>struct WalletContentView: View {
+    @State private var navigationPath = NavigationPath()
+    
+    var body: some View {
+        NavigationStack(path: $navigationPath) {
+            CardGridView(onDoubleTap: { card in
+                navigationPath.append(card)
+            })
+            .navigationDestination(for: CreditCard.self) { card in
+                DetailPanelView(creditCard: card)
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step4.png" alt="Step 4 screenshot">
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="visual column-visual" data-id="step5">
+                        <pre><code>struct DetailView: View {
+    @Bindable var creditCard: CreditCard
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                CardView(creditCard: creditCard)
+                GroupBox {
+                    DetailRowView(label: "Card Name", value: creditCard.name)
+                    DetailRowView(label: "Credit Limit", value: String(creditCard.creditLimit ?? 0))
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step4.png" alt="Step 1 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step6">
+                        <pre><code>struct ToggleHistoryView: View {
+    @Binding var isShowingHistory: Bool
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button(action: { isShowingHistory.toggle() }) {
+                Text(isShowingHistory ? "Hide History" : "Show History")
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step2.png" alt="Step 2 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step7">
+                        <pre><code>struct DetailView: View {
+    @Bindable var creditCard: CreditCard
+    
+    var body: some View {
+        ScrollView {
+            if !creditCard.bonuses.isEmpty {
+                GroupBox {
+                    ForEach(creditCard.bonuses, id: \.self) { bonus in
+                        DetailRowView(label: "Bonus Details", value: bonus.details)
+                    }
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step4.png" alt="Step 3 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step8">
+                        <pre><code>struct WalletContentView: View {
+    @State private var navigationPath = NavigationPath()
+    
+    var body: some View {
+        NavigationStack(path: $navigationPath) {
+            CardGridView(onDoubleTap: { card in
+                navigationPath.append(card)
+            })
+            .navigationDestination(for: CreditCard.self) { card in
+                DetailPanelView(creditCard: card)
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step4.png" alt="Step 4 screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Horizontal Divider -->
+        <hr class="segment-divider">
+        <!-- Segment 3 -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-header-text">
+                    <h1>Section 3: Add and Manage Cards</h1>
+                    <p>Easily add new cards to your collection and manage them with intuitive forms and controls.</p>
+                </div>
+                <img src="Detail View.png" alt="Section 3 image" class="segment-image">
+            </div>
+            <div class="segment-content">
+                <div class="left-column">
+                    <div class="text-segment" data-id="step9">
+                        <h2>Step 1</h2>
+                        <p>Click the "+" button in the toolbar to open the form for adding a new card, like a Citi Double Cash.</p>
+                        <div class="visual inline-visual" data-id="step9">
+                            <pre><code>struct WalletContentView: View {
+    @State private var newCard: Bool = false
+    
+    var body: some View {
+        NavigationSplitView {
+            SidebarView(...)
+        } detail: {
+            CardGridView(...)
+        }
+        .toolbar {
+            ToolbarItemGroup {
+                Button(action: addCard) {
+                    Label("Add Card", systemImage: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $newCard) {
+            AddCreditCardView()
+        }
+    }
+}</code></pre>
+                            <img src="step3.png" alt="Step 1 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step10">
+                        <h2>Step 2</h2>
+                        <p>Fill out the form with details like the card name, credit limit, and last digits, and select a bank from the dropdown.</p>
+                        <div class="visual inline-visual" data-id="step10">
+                            <pre><code>struct FormView: View {
+    @Binding var creditCard: CreditCard
+    @Binding var bank: Bank?
+    
+    var body: some View {
+        Form {
+            Section("Card Details") {
+                StringCustomTextField(title: "Card Name", text: $creditCard.name, ...)
+                NumberCustomTextField(title: "Credit Limit", number: $creditCard.creditLimit, ...)
+                CustomPickerView(title: "Select Bank", options: existingBanks, selection: $bank, ...)
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step5.png" alt="Step 2 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step11">
+                        <h2>Step 3</h2>
+                        <p>Choose the card’s art from a grid of designs—pick the exact Citi Double Cash look to make it yours.</p>
+                        <div class="visual inline-visual" data-id="step11">
+                            <pre><code>struct CardImagePickerView: View {
+    @Binding var selectedCardArt: CardArt?
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(groupedCardArts.keys.sorted(), id: \.self) { bankName in
+                    Section {
+                        LazyVGrid(columns: columns) {
+                            ForEach(groupedCardArts[bankName] ?? [], id: \.assetID) { cardArt in
+                                Image(cardArt.assetID)
+                                    .onTapGesture {
+                                        selectedCardArt = cardArt
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step5.png" alt="Step 3 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step12">
+                        <h2>Step 4</h2>
+                        <p>Save the card to see it in your grid, ready to explore or edit anytime.</p>
+                        <div class="visual inline-visual" data-id="step12">
+                            <pre><code>struct AddCreditCardView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State var creditCard: CreditCard = CreditCard.returnNewCreditCard()
+    
+    var body: some View {
+        FormView(creditCard: $creditCard, ...)
+            .toolbar {
+                ToolbarItem {
+                    Button("Add Card") {
+                        modelContext.insert(creditCard)
+                        try? modelContext.save()
+                    }
+                }
+            }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 4 screenshot">
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="visual column-visual" data-id="step9">
+                        <pre><code>struct WalletContentView: View {
+    @State private var newCard: Bool = false
+    
+    var body: some View {
+        NavigationSplitView {
+            SidebarView(...)
+        } detail: {
+            CardGridView(...)
+        }
+        .toolbar {
+            ToolbarItemGroup {
+                Button(action: addCard) {
+                    Label("Add Card", systemImage: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $newCard) {
+            AddCreditCardView()
+        }
+    }
+}</code></pre>
+                        <img src="step3.png" alt="Step 1 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step10">
+                        <pre><code>struct FormView: View {
+    @Binding var creditCard: CreditCard
+    @Binding var bank: Bank?
+    
+    var body: some View {
+        Form {
+            Section("Card Details") {
+                StringCustomTextField(title: "Card Name", text: $creditCard.name, ...)
+                NumberCustomTextField(title: "Credit Limit", number: $creditCard.creditLimit, ...)
+                CustomPickerView(title: "Select Bank", options: existingBanks, selection: $bank, ...)
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step5.png" alt="Step 2 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step11">
+                        <pre><code>struct CardImagePickerView: View {
+    @Binding var selectedCardArt: CardArt?
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(groupedCardArts.keys.sorted(), id: \.self) { bankName in
+                    Section {
+                        LazyVGrid(columns: columns) {
+                            ForEach(groupedCardArts[bankName] ?? [], id: \.assetID) { cardArt in
+                                Image(cardArt.assetID)
+                                    .onTapGesture {
+                                        selectedCardArt = cardArt
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step5.png" alt="Step 3 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step12">
+                        <pre><code>struct AddCreditCardView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State var creditCard: CreditCard = CreditCard.returnNewCreditCard()
+    
+    var body: some View {
+        FormView(creditCard: $creditCard, ...)
+            .toolbar {
+                ToolbarItem {
+                    Button("Add Card") {
+                        modelContext.insert(creditCard)
+                        try? modelContext.save()
+                    }
+                }
+            }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 4 screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Horizontal Divider -->
+        <hr class="segment-divider">
+        <!-- Segment 4 -->
+        <div class="segment">
+            <div class="segment-header">
+                <div class="segment-header-text">
+                    <h1>Section 4: Visualize Your Data</h1>
+                    <p>Switch to the Charts view to see your credit card data come to life with insightful visuals.</p>
+                </div>
+                <img src="Hide History.png" alt="Section 4 image" class="segment-image">
+            </div>
+            <div class="segment-content">
+                <div class="left-column">
+                    <div class="text-segment" data-id="step13">
+                        <h2>Step 1</h2>
+                        <p>Click "Charts" in the sidebar to switch to a dashboard view of your credit card data.</p>
+                        <div class="visual inline-visual" data-id="step13">
+                            <pre><code>struct SidebarView: View {
+    @Binding var selectedCategory: SideBarCategories
+    
+    var body: some View {
+        List(selection: $selectedCategory) {
+            Section("Dashboard") {
+                NavigationLink(value: SideBarCategories.charts) {
+                    Label(SideBarCategories.charts.displayName, systemImage: "chart.line.uptrend.xyaxis")
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 1 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step14">
+                        <h2>Step 2</h2>
+                        <p>Check the credit limit chart to see which cards have the most spending power—like your Chase Ink Unlimited.</p>
+                        <div class="visual inline-visual" data-id="step14">
+                            <pre><code>struct CreditLimitChartView: View {
+    var cards: [CreditCard]
+    
+    var body: some View {
+        VStack {
+            Text("Credit limits of all open cards")
+            Chart {
+                ForEach(Array(filteredCards.enumerated()), id: \.offset) { index, card in
+                    BarMark(
+                        x: .value("Card", index),
+                        y: .value("Credit Limit", card.creditLimit ?? 0)
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 2 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step15">
+                        <h2>Step 3</h2>
+                        <p>Explore the credit age chart to understand the history of your personal cards, complete with an average age line.</p>
+                        <div class="visual inline-visual" data-id="step15">
+                            <pre><code>struct CreditAgeChartView: View {
+    var cards: [CreditCard]
+    
+    var body: some View {
+        VStack {
+            Text("Credit age of personal cards")
+            Chart {
+                ForEach(Array(filteredCards.enumerated()), id: \.offset) { index, card in
+                    BarMark(
+                        x: .value("Card", index),
+                        y: .value("Card Age", Date().timeIntervalSince(card.openDate) / (365.25 * 24 * 3600))
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 3 screenshot">
+                        </div>
+                    </div>
+                    <div class="text-segment" data-id="step16">
+                        <h2>Step 4</h2>
+                        <p>See a pie chart breaking down your cards by bank—maybe AmEx dominates your collection.</p>
+                        <div class="visual inline-visual" data-id="step16">
+                            <pre><code>struct BankPieChartView: View {
+    var banks: [Bank]
+    
+    var body: some View {
+        VStack {
+            Text("Open credit cards by bank")
+            Chart {
+                ForEach(Array(filteredBanks.enumerated()), id: \.element.id) { index, bank in
+                    SectorMark(
+                        angle: .value("Cards", bank.creditCards.filter { $0.closed == nil }.count),
+                        innerRadius: .ratio(0.618)
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                            <img src="step1.png" alt="Step 4 screenshot">
+                        </div>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="visual column-visual" data-id="step13">
+                        <pre><code>struct SidebarView: View {
+    @Binding var selectedCategory: SideBarCategories
+    
+    var body: some View {
+        List(selection: $selectedCategory) {
+            Section("Dashboard") {
+                NavigationLink(value: SideBarCategories.charts) {
+                    Label(SideBarCategories.charts.displayName, systemImage: "chart.line.uptrend.xyaxis")
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 1 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step14">
+                        <pre><code>struct CreditLimitChartView: View {
+    var cards: [CreditCard]
+    
+    var body: some View {
+        VStack {
+            Text("Credit limits of all open cards")
+            Chart {
+                ForEach(Array(filteredCards.enumerated()), id: \.offset) { index, card in
+                    BarMark(
+                        x: .value("Card", index),
+                        y: .value("Credit Limit", card.creditLimit ?? 0)
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 2 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step15">
+                        <pre><code>struct CreditAgeChartView: View {
+    var cards: [CreditCard]
+    
+    var body: some View {
+        VStack {
+            Text("Credit age of personal cards")
+            Chart {
+                ForEach(Array(filteredCards.enumerated()), id: \.offset) { index, card in
+                    BarMark(
+                        x: .value("Card", index),
+                        y: .value("Card Age", Date().timeIntervalSince(card.openDate) / (365.25 * 24 * 3600))
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 3 screenshot">
+                    </div>
+                    <div class="visual column-visual" data-id="step16">
+                        <pre><code>struct BankPieChartView: View {
+    var banks: [Bank]
+    
+    var body: some View {
+        VStack {
+            Text("Open credit cards by bank")
+            Chart {
+                ForEach(Array(filteredBanks.enumerated()), id: \.element.id) { index, bank in
+                    SectorMark(
+                        angle: .value("Cards", bank.creditCards.filter { $0.closed == nil }.count),
+                        innerRadius: .ratio(0.618)
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                        <img src="step1.png" alt="Step 4 screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

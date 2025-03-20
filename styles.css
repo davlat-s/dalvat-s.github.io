@@ -1,0 +1,251 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1e; /* Dark background */
+    color: #fff; /* White text */
+}
+
+/* Banner */
+.banner {
+    position: relative;
+    width: 100%;
+    height: 500px; /* Adjust height as needed */
+    background-color: #000;
+    overflow: hidden;
+    margin-bottom: 40px; /* Add space below the banner */
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Scales image to cover the area while maintaining aspect ratio */
+    opacity: 0.5; /* Dark overlay effect */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.banner-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #fff;
+}
+
+.banner-content h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.banner-content p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+
+.banner-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Two-column layout */
+.main-container {
+    display: flex;
+    flex-direction: column; /* Stack segments vertically */
+    max-width: 1200px; /* Maximum width for the entire container */
+    margin: 0 auto; /* Center the container on the page */
+    padding: 0 20px; /* Add padding to prevent edge-sticking */
+}
+
+/* Segment styling */
+.segment {
+    margin-bottom: 40px; /* Space below each segment */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align children to the left */
+    width: 100%; /* Ensure it takes full container width */
+}
+
+.segment-header {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: center;
+    margin-bottom: 40px;
+    width: 100%; /* Full width within segment */
+    text-align: left; /* Align text to the left */
+}
+
+.segment-header-text {
+    flex: 1;
+    max-width: 500px; /* Keep this for readability */
+    padding: 15px; /* Add padding around the section header text */
+}
+
+.segment-header-text h1 {
+    font-size: 32px; /* Larger font for segment titles */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.segment-header-text p {
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 500px;
+}
+
+.segment-image {
+    width: 300px; /* Adjust size as needed */
+    height: auto;
+    border-radius: 8px;
+}
+
+.segment-content {
+    display: flex;
+    justify-content: flex-start; /* Align columns to the left */
+    width: 100%;
+}
+
+.left-column {
+    flex: 0 0 400px; /* Fixed width for the left column (narrower) */
+    padding: 20px;
+    max-width: 400px; /* Prevent stretching */
+}
+
+.right-column {
+    flex: 0 0 600px; /* Fixed width for the right column (wider but limited) */
+    position: sticky; /* Stays in view while scrolling */
+    top: 0;
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Scroll if content overflows */
+    background-color: #2c2c2e; /* Slightly lighter dark for right column */
+    padding: 20px;
+    max-width: 600px; /* Prevent stretching */
+}
+
+/* Horizontal divider between segments */
+.segment-divider {
+    border: 0;
+    height: 1px;
+    background: #444; /* Subtle gray line */
+    margin: 40px 0; /* Space above and below the divider */
+    width: 100%; /* Ensure it spans full width */
+}
+
+/* Text segment styling */
+.text-segment {
+    background-color: #333; /* Dark gray background for steps */
+    padding: 30px; /* Increased padding around the text inside the segment */
+    margin-bottom: 40px; /* Increased spacing between steps */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.text-segment.active {
+    border: 2px solid #0a84ff; /* Blue border for selected step */
+}
+
+.text-segment h2 {
+    font-size: 24px; /* Slightly smaller than segment title */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.text-segment p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Visuals */
+.visual {
+    display: none; /* Hide all visuals by default */
+}
+
+.visual.active {
+    display: block; /* Show only the active one */
+}
+
+.visual pre {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.visual img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Single-column layout for smaller screens */
+@media (max-width: 768px) {
+    .banner {
+        height: 400px; /* Shorter on mobile */
+        margin-bottom: 20px; /* Slightly less space on mobile */
+    }
+    .banner-content h1 {
+        font-size: 36px;
+    }
+    .banner-content p {
+        font-size: 16px;
+    }
+    .main-container {
+        display: block; /* Stack columns vertically */
+        max-width: 100%; /* Full width on mobile */
+        padding: 0 10px; /* Smaller padding on mobile */
+    }
+    .segment-header {
+        flex-direction: column;
+        align-items: flex-start; /* Align to the left */
+        text-align: left;
+    }
+    .segment-image {
+        width: 100%;
+        max-width: 300px;
+        margin-top: 20px;
+    }
+    .segment-content {
+        display: block;
+        max-width: 600px; /* Keep content readable */
+        margin: 0; /* Align to the left */
+    }
+    .left-column {
+        flex: none; /* Remove fixed width */
+        width: 100%; /* Full width on mobile */
+        max-width: 600px; /* Limit content width */
+        padding: 10px; /* Adjust padding for mobile */
+    }
+    .right-column {
+        display: none; /* Hide right column */
+    }
+    .inline-visual {
+        display: block; /* Show visuals within text segments */
+    }
+    .column-visual {
+        display: none; /* Keep these hidden */
+    }
+    .segment h1 {
+        font-size: 28px; /* Slightly smaller on mobile */
+    }
+    .text-segment h2 {
+        font-size: 20px;
+    }
+    .text-segment {
+        padding: 20px; /* Slightly less padding on mobile for better fit */
+    }
+}
+
+/* Two-column rules for larger screens */
+@media (min-width: 769px) {
+    .inline-visual {
+        display: none; /* Hide inline visuals */
+    }
+    .column-visual {
+        display: none; /* Hidden until JavaScript shows them */
+    }
+}
